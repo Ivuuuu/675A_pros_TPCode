@@ -9,12 +9,10 @@ int mogo_bottom_pos = 497;
 
 const int DRIVE_SPEED = 122;
 
-void rightYellowAuton(void)
 {
   chassis.set_drive_pid(40.1, DRIVE_SPEED, true);
   chassis.wait_drive();
 
-  // claw.startRotateTo(-300, rotationUnits::deg, 90, velocityUnits::pct);
   // task::sleep(1000);
 
   // claw.startRotateTo(-160, rotationUnits::deg, 100, velocityUnits::pct);
