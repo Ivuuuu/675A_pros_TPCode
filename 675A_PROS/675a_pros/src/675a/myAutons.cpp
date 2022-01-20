@@ -14,12 +14,11 @@ void rightYellowAuton(void)
   chassis.set_drive_pid(40.1, DRIVE_SPEED, true);
   chassis.wait_drive();
 
-  // claw.startRotateTo(-300, rotationUnits::deg, 90, velocityUnits::pct);
+  claw_open();
   // task::sleep(1000);
 
-  // claw.startRotateTo(-160, rotationUnits::deg, 100, velocityUnits::pct);
+  claw_close();
   // task::sleep(500);
-  claw_open();
 
   //set_drive_pid(drive, X, DRIVE_SPEED, true);
   //  desiredVal = -600;
