@@ -1,15 +1,18 @@
 #include "main.h"
 
-void claw_open(){
+void claw_open()
+{
   clawADI.set_value(false);
   clamp_current_state = false;
 }
-void claw_close(){
+void claw_close()
+{
   clawADI.set_value(true);
   clamp_current_state = true;
 }
 
-void start_mogo_down(int speed){
+void start_mogo_down(int speed)
+{
   mogo.move_absolute(mogo_bottom_pos, speed);
 }
 void start_mogo_mid(int speed){

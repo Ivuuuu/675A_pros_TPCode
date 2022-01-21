@@ -1,7 +1,7 @@
 {
     "py/object": "pros.conductor.project.Project",
     "py/state": {
-        "project_name": "EZ-Template",
+        "project_name": "EzPz",
         "target": "v5",
         "templates": {
             "kernel": {
@@ -308,8 +308,8 @@
         "upload_options": {
             "compress_bin": true,
             "description": "making code ez-pz",
-            "remote_name": "EZ-Template",
-            "slot": 1
+            "remote_name": "EzPz",
+            "slot": 7
         }
     }
 }

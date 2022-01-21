@@ -1,19 +1,5 @@
 #include "main.h"
 
-//GLOBAL VARIABLES--------------------------------------------------------------
-bool driveLock = false;
-bool mogoMacroBool = false;
-bool mogoIsDown = false;
-
-int lift_up_speed = 200;
-int lift_down_speed = 200;
-
-int claw_open_speed = 200;
-int claw_close_speed = 200;
-
-int mogo_down_speed = 200;
-
-int conveyor_speed = 100; // prolly need to change
 
 //MAIN USER CONTROL LOOP--------------------------------------------------------
 void op_control()
@@ -28,30 +14,37 @@ void op_control()
     chassis.set_drive_brake(MOTOR_BRAKE_COAST);
   }
 
-  // button presses -- drive lock -- mogo macro   -----
+  // button presses -- drive lock -----
   if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP))
   {
     startDriveLockSwitch();
   }
-  if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X))
+
+// mogo macro     ----
+  if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B))
   {
-    startMogoMacro();
+    pros::Task mogo_control_task(mogoMacro);
+  }
+  else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y))
+  {
+    mogoIsDown = true;
+    mogoIsSensed = false;
+    pros::Task mogo_control_task(mogoMacro);
   }
 
-  // button holds -- claw                 -----
-  if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R1))
+  if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R1))
   {
-    claw.move_velocity(claw_open_speed);
-  }
-  else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R2))
-  {
-    claw.move_velocity(-claw_close_speed);
-  }
-  else
-  {
-    claw.move_velocity(0);
-    claw.set_brake_mode(MOTOR_BRAKE_HOLD);
-  }
+    if(clamp_current_state == true)
+    {
+      clawADI.set_value(false);
+      clamp_current_state = false;
+    }
+    else if(clamp_current_state == false)
+    {
+      clawADI.set_value(true);
+      clamp_current_state = true;
+    }
+}
 
   // button holds -- lift                 -----
   if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L1))
@@ -75,18 +68,17 @@ void op_control()
   }
 
   // start/stop conveyor                 -----
-  if (master.get_digital(pros::E_CONTROLLER_DIGITAL_LEFT))
+  if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_LEFT))
   {
     conveyor.move_velocity(conveyor_speed);
   }
-  else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT))
+  if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT))
   {
     conveyor.move_velocity(-conveyor_speed);
   }
-  else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN))
+  if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN))
   {
     conveyor.move_velocity(0);
-    conveyor.set_brake_mode(MOTOR_BRAKE_HOLD);
   }
 }
 
@@ -109,18 +101,34 @@ int driveLockSwitch()
 
 int mogoMacro()
 {
-  if (mogoIsDown == false)
+  if(mogoIsDown)
   {
-    mogo.move_absolute(935, 70);
-    mogoMacroBool = false;
+    if(mogoIsSensed)
+    {
+      mogo.move_relative(mogo_mid_pos, 70);
+    }
+    else
+    {
+      mogo.move_relative(mogo_start_pos, 100);
+    }
+    mogo = false;
+  }
+  else if(!mogoIsDown)
+  {
+    if(mogoIsSensed)
+    {
+      mogo.move_relative(mogo_bottom_pos, 52);
+    }
+    else
+    {
+      mogo.move_relative(mogo_bottom_pos, 100);
+      mogoIsSensed = true;
+    }
+
     mogoIsDown = true;
   }
-  else if (mogoIsDown)
-  {
-    mogo.move_absolute(478, 100);
-    mogoMacroBool = false;
-    mogoIsDown = false;
-  }
+
+  master.rumble(".");
   return 1;
 }
 
