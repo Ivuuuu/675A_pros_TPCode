@@ -41,16 +41,18 @@ void mogo_up(){
   }
 }
 
-void start_lift_to(int pos, int speed){
-  lift.move_absolute(pos, speed);
-}
-void lift_to(int pos, int speed){
-  lift.move_absolute(pos, speed);
-
-  while(fabs(lift.get_position() - lift.get_target_position()) > 2){  // ask zoom
-    wait(2);
-  }
-}
+// void start_lift_to(int pos, int speed){
+//   lift.move_absolute(pos, speed);
+//   lift.move_absolute(pos, speed);
+// }
+// void lift_to(int pos, int speed){
+//   lift.move_absolute(pos, speed);
+//   lift.move_absolute(pos, speed);
+//
+//   while(fabs(lift.get_position() - lift.get_target_position()) > 2){  // ask zoom
+//     wait(2);
+//   }
+// }
 
 void start_intake(int speed){
   conveyor.move_velocity(speed);

@@ -3,7 +3,7 @@
 extern bool driveLock;
 extern bool mogoMacroBool;
 extern bool mogoIsDown;
-extern bool mogoIsSensed;
+extern bool mogoMidToggle;
 
 extern int lift_up_speed;
 extern int lift_down_speed;

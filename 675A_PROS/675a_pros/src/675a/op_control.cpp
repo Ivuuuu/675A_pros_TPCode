@@ -4,7 +4,17 @@
 //MAIN USER CONTROL LOOP--------------------------------------------------------
 void op_control()
 {
-  // use drive lock         ----
+  useDriveLock();
+  useMogoMacro(); //R2 & X
+  useClaw();      //R1
+  useLift();      //L1 & L2
+  useConveyor();  //left,right,down
+}
+
+
+//MANUAL USER CONTROL-----------------------------------------------------------
+void useDriveLock()
+{
   if (driveLock)
   {
     chassis.set_drive_brake(MOTOR_BRAKE_HOLD);
@@ -13,25 +23,23 @@ void op_control()
   {
     chassis.set_drive_brake(MOTOR_BRAKE_COAST);
   }
+}
 
-  // button presses -- drive lock -----
-  if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP))
-  {
-    startDriveLockSwitch();
-  }
-
-// mogo macro     ----
-  if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B))
+void useMogoMacro()
+{
+  if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R2))
   {
     pros::Task mogo_control_task(mogoMacro);
   }
-  else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y))
+  else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X))
   {
     mogoIsDown = true;
-    mogoIsSensed = false;
     pros::Task mogo_control_task(mogoMacro);
   }
+}
 
+void useClaw()
+{
   if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R1))
   {
     if(clamp_current_state == true)
@@ -44,30 +52,30 @@ void op_control()
       clawADI.set_value(true);
       clamp_current_state = true;
     }
+  }
 }
 
-  // button holds -- lift                 -----
+void useLift()
+{
   if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L1))
   {
-    lift.move_velocity(lift_up_speed);
+    lift_l.move_velocity(lift_up_speed);
+    lift_r.move_velocity(lift_up_speed);
   }
   else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L2))
   {
-    lift.move_velocity(-lift_down_speed);
+    lift_l.move_velocity(-lift_down_speed);
+    lift_r.move_velocity(-lift_down_speed);
   }
   else
   {
-    lift.move_velocity(0);
-    lift.set_brake_mode(MOTOR_BRAKE_HOLD);
+    lift_l.move_velocity(0);
+    lift_r.move_velocity(0);
   }
+}
 
-  // mogo lift manual -- lift                 -----
-  if (master.get_digital(pros::E_CONTROLLER_DIGITAL_B))
-  {
-    mogo.move_velocity(mogo_down_speed);
-  }
-
-  // start/stop conveyor                 -----
+void useConveyor()
+{
   if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_LEFT))
   {
     conveyor.move_velocity(conveyor_speed);
@@ -81,6 +89,7 @@ void op_control()
     conveyor.move_velocity(0);
   }
 }
+
 
 //USER CONTROL TASKS------------------------------------------------------------
 int driveLockSwitch()
@@ -103,29 +112,21 @@ int mogoMacro()
 {
   if(mogoIsDown)
   {
-    if(mogoIsSensed)
-    {
-      mogo.move_relative(mogo_mid_pos, 70);
-    }
-    else
-    {
-      mogo.move_relative(mogo_start_pos, 100);
-    }
-    mogo = false;
+    mogo.move_absolute(mogo_start_pos, 100);
+    mogoIsDown = false;
   }
   else if(!mogoIsDown)
   {
-    if(mogoIsSensed)
+    if (!mogoMidToggle)
     {
-      mogo.move_relative(mogo_bottom_pos, 52);
+      mogo.move_absolute(mogo_mid_pos, 70);
+      mogoMidToggle = true;
     }
     else
     {
-      mogo.move_relative(mogo_bottom_pos, 100);
-      mogoIsSensed = true;
+      mogo.move_absolute(mogo_bottom_pos, 70);
+      mogoMidToggle = false;
     }
-
-    mogoIsDown = true;
   }
 
   master.rumble(".");

@@ -1,7 +1,8 @@
 #include "api.h"
 
 extern pros::Motor mogo;
-extern pros::Motor lift;
+extern pros::Motor lift_l;
+extern pros::Motor lift_r;
 extern pros::Motor claw;
 extern pros::Motor conveyor;
 

@@ -36,19 +36,19 @@
 
 #include "api.h"
 
-/**
- * You should add more #includes here
- */
+// 675A INCLUDES----------------------------------------------------------
+#include "675a/op_control.hpp"
+#include "675a/robot_config.hpp"
+#include "675a/myAutons.hpp"
+#include "675a/zooms_auton_helper_functions.hpp"
+#include "675a/globalVariables.hpp"
+
 //#include "okapi/api.hpp"
 //#include "pros/api_legacy.h"
 #include "EZ-Template/api.hpp"
 
 // More includes here...
 #include "autons.hpp"
-
-#include "675D/op_control_functions.hpp"
-#include "675D/auton_helper_functions.hpp"
-#include "675D/motors_and_sensors.hpp"
 
 /**
  * If you find doing pros::Motor() to be tedious and you'd prefer just to do
