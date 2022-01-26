@@ -2,15 +2,7 @@
 
 void claw_open();
 void claw_close();
-void bwd(double distance, int speed, bool slew);
 
-void fwd(double distance, int speed, bool slew);
-
-void point_turn(double angle, int speed);
-
-void swing_right(double angle, int speed);
-
-void swing_left(double angle, int speed);
 ////
 // moves mogo to bottom position
 // NON-BLOCKING
@@ -93,7 +85,3 @@ void wait(int time);
 // NON-BLOCKING
 ////
 void start_flipout();
-
-extern bool is_time_up;
-int check_for_time();
-pros::Task start_timer();
