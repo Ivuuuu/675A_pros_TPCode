@@ -189,20 +189,9 @@ void Drive::reset_drive_sensors_opcontrol() {
   }
 }
 
-void Drive::joy_thresh_opcontrol(int l_stick, int r_stick) {
-  // Threshold if joysticks don't come back to perfect 0
-  if (abs(l_stick) > JOYSTICK_THRESHOLD || abs(r_stick) > JOYSTICK_THRESHOLD) {
-    set_tank(l_stick, r_stick);
-    if (active_brake_kp != 0) reset_drive_sensor();
-  }
-  // When joys are released, run active brake (P) on drive
-  else {
-    set_tank((0 - left_sensor()) * active_brake_kp, (0 - right_sensor()) * active_brake_kp);
-  }
-}
-
 // Tank control
 void Drive::tank() {
+  mode = DISABLE;
   is_tank = true;
   reset_drive_sensors_opcontrol();
 
@@ -213,12 +202,20 @@ void Drive::tank() {
   int l_stick = left_curve_function(master.get_analog(ANALOG_LEFT_Y));
   int r_stick = left_curve_function(master.get_analog(ANALOG_RIGHT_Y));
 
-  // Set robot to l_stick and r_stick, check joystick threshold, set active brake
-  joy_thresh_opcontrol(l_stick, r_stick);
+  // Threshold if joysticks don't come back to perfect 0
+  if (abs(l_stick) > JOYSTICK_THRESHOLD || abs(r_stick) > JOYSTICK_THRESHOLD) {
+    set_tank(l_stick, r_stick);
+    reset_drive_sensor();
+  }
+  // When joys are released, run active brake (P) on drive
+  else {
+    set_tank((0 - left_sensor()) * active_brake_kp, (0 - right_sensor()) * active_brake_kp);
+  }
 }
 
 // Arcade standard
 void Drive::arcade_standard(e_type stick_type) {
+  mode = DISABLE;
   is_tank = false;
   reset_drive_sensors_opcontrol();
 
@@ -237,12 +234,20 @@ void Drive::arcade_standard(e_type stick_type) {
     r_stick = right_curve_function(master.get_analog(ANALOG_LEFT_X));
   }
 
-  // Set robot to l_stick and r_stick, check joystick threshold, set active brake
-  joy_thresh_opcontrol(l_stick, r_stick);
+  // Threshold if joysticks don't come back to perfect 0
+  if (abs(l_stick) > JOYSTICK_THRESHOLD || abs(r_stick) > JOYSTICK_THRESHOLD) {
+    set_tank(l_stick + r_stick, l_stick - r_stick);
+    reset_drive_sensor();
+  }
+  // When joys are released, run active brake (P) on drive
+  else {
+    set_tank((0 - left_sensor()) * active_brake_kp, (0 - right_sensor()) * active_brake_kp);
+  }
 }
 
 // Arcade control flipped
 void Drive::arcade_flipped(e_type stick_type) {
+  mode = DISABLE;
   is_tank = false;
   reset_drive_sensors_opcontrol();
 
@@ -261,6 +266,13 @@ void Drive::arcade_flipped(e_type stick_type) {
     l_stick = left_curve_function(master.get_analog(ANALOG_RIGHT_X));
   }
 
-  // Set robot to l_stick and r_stick, check joystick threshold, set active brake
-  joy_thresh_opcontrol(l_stick, r_stick);
+  // Threshold if joysticks don't come back to perfect 0
+  if (abs(l_stick) > JOYSTICK_THRESHOLD || abs(r_stick) > JOYSTICK_THRESHOLD) {
+    set_tank(r_stick + l_stick, r_stick - l_stick);
+    reset_drive_sensor();
+  }
+  // When joys are released, run active brake (P) on drive
+  else {
+    set_tank((0 - left_sensor()) * active_brake_kp, (0 - right_sensor()) * active_brake_kp);
+  }
 }

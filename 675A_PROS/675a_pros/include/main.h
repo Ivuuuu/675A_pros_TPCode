@@ -39,8 +39,9 @@
 // 675A INCLUDES----------------------------------------------------------
 #include "675a/op_control.hpp"
 #include "675a/robot_config.hpp"
-#include "675a/myAutons.hpp"
+#include "675a/matchAutons.hpp"
 #include "675a/zooms_auton_helper_functions.hpp"
+#include "675a/globalVariables.hpp"
 
 //#include "okapi/api.hpp"
 //#include "pros/api_legacy.h"

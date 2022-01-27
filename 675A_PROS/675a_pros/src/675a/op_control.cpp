@@ -1,26 +1,27 @@
 #include "main.h"
 
-//GLOBAL VARIABLES--------------------------------------------------------------
-bool driveLock = false;
-bool mogoMacroBool = false;
-bool mogoIsDown = false;
-
-int lift_up_speed = 200;
-int lift_down_speed = 200;
-
-int claw_open_speed = 200;
-int claw_close_speed = 200;
-
-int mogo_down_speed = 200;
-
-int conveyor_speed = 299; // prolly need to change
-
-bool claw_piston = false;
 
 //MAIN USER CONTROL LOOP--------------------------------------------------------
 void op_control()
 {
-  // use drive lock         ----
+  useDriveLock();
+  useMogoMacro(); //R2 & X
+  useClaw();      //R1
+  useLift();      //L1 & L2
+  useConveyor();  //left,right,down
+
+  // if lift value is under 100 make conveyor stop no matter what
+}
+
+
+//MANUAL USER CONTROL-----------------------------------------------------------
+void useDriveLock()
+{
+  if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP))
+  {
+    pros::Task drive_lock_task(driveLockSwitch);
+  }
+
   if (driveLock)
   {
     chassis.set_drive_brake(MOTOR_BRAKE_HOLD);
@@ -29,82 +30,73 @@ void op_control()
   {
     chassis.set_drive_brake(MOTOR_BRAKE_COAST);
   }
+}
 
-  // button presses -- drive lock -- mogo macro   -----
-  if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP))
+void useMogoMacro()
+{
+  if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R2))
   {
-    startDriveLockSwitch();
+    pros::Task mogo_control_task(mogoMacro);
   }
-  if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X))
+  else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X))
   {
-    startMogoMacro();
+    mogoIsDown = true;
+    pros::Task mogo_control_task(mogoMacro);
   }
+}
 
-  /*
-  // button holds -- claw                 -----
-  if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R1))
+void useClaw()
+{
+  if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R1))
   {
-    claw.move_velocity(claw_open_speed);
-  }
-  else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R2))
-  {
-    claw.move_velocity(-claw_close_speed);
-  }
-  else
-  {
-    claw.move_velocity(0);
-    claw.set_brake_mode(MOTOR_BRAKE_HOLD);
-  }
-  */
-
-  if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R1))
-  {
-    if ( claw_piston == false)
-    {
-      clawADI.set_value(true);
-    }
-    else
+    if(clamp_current_state == true)
     {
       clawADI.set_value(false);
+      clamp_current_state = false;
+    }
+    else if(clamp_current_state == false)
+    {
+      clawADI.set_value(true);
+      clamp_current_state = true;
     }
   }
+}
 
-  // button holds -- lift                 -----
+void useLift()
+{
   if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L1))
   {
-    lift.move_velocity(lift_up_speed);
+    lift_l.move_velocity(lift_up_speed);
+    lift_r.move_velocity(lift_up_speed);
   }
   else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L2))
   {
-    lift.move_velocity(-lift_down_speed);
+    lift_l.move_velocity(-lift_down_speed);
+    lift_r.move_velocity(-lift_down_speed);
   }
   else
   {
-    lift.move_velocity(0);
-    lift.set_brake_mode(MOTOR_BRAKE_HOLD);
+    lift_l.move_velocity(0);
+    lift_r.move_velocity(0);
   }
+}
 
-  // mogo lift manual -- lift                 -----
-  if (master.get_digital(pros::E_CONTROLLER_DIGITAL_B))
-  {
-    mogo.move_velocity(mogo_down_speed);
-  }
-
-  // start/stop conveyor                 -----
-  if (master.get_digital(pros::E_CONTROLLER_DIGITAL_LEFT))
+void useConveyor()
+{
+  if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_LEFT))
   {
     conveyor.move_velocity(conveyor_speed);
   }
-  else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT))
+  if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT))
   {
     conveyor.move_velocity(-conveyor_speed);
   }
-  else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN))
+  if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN))
   {
     conveyor.move_velocity(0);
-    conveyor.set_brake_mode(MOTOR_BRAKE_HOLD);
   }
 }
+
 
 //USER CONTROL TASKS------------------------------------------------------------
 int driveLockSwitch()
@@ -117,7 +109,7 @@ int driveLockSwitch()
   else if (driveLock == false)
   {
     driveLock = true;
-    master.rumble("-");
+    master.rumble("--");
   }
   return 1;
 }
@@ -125,20 +117,29 @@ int driveLockSwitch()
 
 int mogoMacro()
 {
-  if (mogoIsDown == false)
+  if(mogoIsDown)
   {
-    mogo.move_absolute(935, 70);
-    mogoMacroBool = false;
-    mogoIsDown = true;
-  }
-  else if (mogoIsDown)
-  {
-    mogo.move_absolute(478, 100);
-    mogoMacroBool = false;
+    mogo.move_absolute(mogo_start_pos, 100);
     mogoIsDown = false;
   }
+  else if(!mogoIsDown)
+  {
+    if (!mogoMidToggle)
+    {
+      mogo.move_absolute(mogo_mid_pos, 70);
+      mogoMidToggle = true;
+    }
+    else
+    {
+      mogo.move_absolute(mogo_bottom_pos, 70);
+      mogoMidToggle = false;
+    }
+  }
+
+  master.rumble(".");
   return 1;
 }
+
 
 void startDriveLockSwitch()
 {
