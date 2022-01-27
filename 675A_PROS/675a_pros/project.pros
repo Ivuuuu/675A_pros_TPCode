@@ -1,7 +1,7 @@
 {
     "py/object": "pros.conductor.project.Project",
     "py/state": {
-        "project_name": "ezpzLemonSqueezy",
+        "project_name": "L_Bozo",
         "target": "v5",
         "templates": {
             "kernel": {
@@ -308,8 +308,8 @@
         "upload_options": {
             "compress_bin": true,
             "description": "making code ez-pz",
-            "remote_name": "ezpzLemonSqueezy",
-            "slot": 8
+            "remote_name": "L_Bozo",
+            "slot": 2
         }
     }
 }

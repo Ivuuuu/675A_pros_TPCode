@@ -9,12 +9,19 @@ void op_control()
   useClaw();      //R1
   useLift();      //L1 & L2
   useConveyor();  //left,right,down
+
+  // if lift value is under 100 make conveyor stop no matter what
 }
 
 
 //MANUAL USER CONTROL-----------------------------------------------------------
 void useDriveLock()
 {
+  if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP))
+  {
+    pros::Task drive_lock_task(driveLockSwitch);
+  }
+
   if (driveLock)
   {
     chassis.set_drive_brake(MOTOR_BRAKE_HOLD);
