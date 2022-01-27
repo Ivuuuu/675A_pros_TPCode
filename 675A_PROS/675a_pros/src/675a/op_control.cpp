@@ -13,7 +13,9 @@ int claw_close_speed = 200;
 
 int mogo_down_speed = 200;
 
-int conveyor_speed = 100; // prolly need to change
+int conveyor_speed = 299; // prolly need to change
+
+bool claw_piston = false;
 
 //MAIN USER CONTROL LOOP--------------------------------------------------------
 void op_control()
@@ -38,6 +40,7 @@ void op_control()
     startMogoMacro();
   }
 
+  /*
   // button holds -- claw                 -----
   if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R1))
   {
@@ -51,6 +54,19 @@ void op_control()
   {
     claw.move_velocity(0);
     claw.set_brake_mode(MOTOR_BRAKE_HOLD);
+  }
+  */
+
+  if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R1))
+  {
+    if ( claw_piston == false)
+    {
+      clawADI.set_value(true);
+    }
+    else
+    {
+      clawADI.set_value(false);
+    }
   }
 
   // button holds -- lift                 -----
@@ -101,7 +117,7 @@ int driveLockSwitch()
   else if (driveLock == false)
   {
     driveLock = true;
-    master.rumble("--");
+    master.rumble("-");
   }
   return 1;
 }
@@ -123,7 +139,6 @@ int mogoMacro()
   }
   return 1;
 }
-
 
 void startDriveLockSwitch()
 {
