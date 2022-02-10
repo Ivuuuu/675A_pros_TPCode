@@ -21,3 +21,5 @@ void prog_skills();
 void left_auto();
 
 void skillsAuton();
+void zoomsSkillsAuton();
+void testAuton();

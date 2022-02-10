@@ -18,7 +18,7 @@ Drive chassis (
   ,{10, 5}
 
   // IMU Port
-  ,20
+  ,1
 
   // Wheel Diameter (Remember, 4" wheels are actually 4.125!)
   //    (or tracking wheel diameter)
@@ -76,7 +76,9 @@ void initialize() {
   // Autonomous Selector using LLEMMU
   ez::as::auton_selector.add_autons({
     //Auton("Example Drive\n\nDrive forward and come back.", drive_example),
-    Auton("Skills Auton", skillsAuton),
+    //Auton("Skills Auton", skillsAuton),
+    Auton("ZOOMS Skills Auton", zoomsSkillsAuton),
+    //Auton("Test Auton", testAuton),
     // Auton("Example Turn\n\nTurn 3 times.", turn_example),
     // Auton("Drive and Turn\n\nDrive forward, turn, come back. ", drive_and_turn),
     // Auton("Drive and Turn\n\nSlow down during drive.", wait_until_change_speed),
@@ -155,6 +157,10 @@ void autonomous() {
 void opcontrol() {
   // This is preference to what you like to drive on.
   chassis.set_drive_brake(MOTOR_BRAKE_COAST);
+  lift_l.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+  lift_r.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+  mogo.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+  conveyor.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
 
   while (true)
   {
@@ -165,8 +171,6 @@ void opcontrol() {
     // chassis.arcade_flipped(ez::SINGLE); // Flipped single arcade
 
     //OP_CONTROL----------------------------------------------------------------
-    lift_l.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
-    lift_r.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
     op_control();
 
     pros::delay(ez::util::DELAY_TIME); // This is used for timer calculations!  Keep this ez::util::DELAY_TIME

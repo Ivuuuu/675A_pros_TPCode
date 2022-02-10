@@ -49,15 +49,15 @@ void useClaw()
 {
   if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R1))
   {
-    if(clamp_current_state == true)
+    if(clamp_is_down == true)
     {
       clawADI.set_value(false);
-      clamp_current_state = false;
+      clamp_is_down = false;
     }
-    else if(clamp_current_state == false)
+    else if(clamp_is_down == false)
     {
       clawADI.set_value(true);
-      clamp_current_state = true;
+      clamp_is_down = true;
     }
   }
 }
@@ -101,12 +101,12 @@ void useConveyor()
 //USER CONTROL TASKS------------------------------------------------------------
 int driveLockSwitch()
 {
-  if (driveLock)
+  if (driveLock)  //disable
   {
     driveLock = false;
-    master.rumble("--");
+    master.rumble("-");
   }
-  else if (driveLock == false)
+  else if (driveLock == false)  //enable
   {
     driveLock = true;
     master.rumble("--");
