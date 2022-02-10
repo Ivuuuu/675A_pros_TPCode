@@ -126,7 +126,7 @@ int mogoMacro()
   {
     if (!mogoMidToggle)
     {
-      mogo.move_absolute(mogo_mid_pos, 70);
+      mogo.move_absolute(mogo_mid_pos, 100);
       mogoMidToggle = true;
     }
     else
