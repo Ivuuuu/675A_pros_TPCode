@@ -345,6 +345,9 @@ void zoomsSkillsAuton()
     chassis.set_drive_pid(42, 80, true); //drives to the platform
     chassis.wait_drive();
 
+    chassis.set_drive_pid(-5, 80, true); //backs away slightly from the platform
+    chassis.wait_drive();
+
     chassis.set_swing_pid(ez::LEFT_SWING, -32, 60); //swings to adjust with platform
     chassis.wait_drive();
 
@@ -408,7 +411,7 @@ void zoomsSkillsAuton()
     chassis.wait_drive();
 
     chassis.set_drive_pid(-37, 90, true);
-    start_lift_to(-3, 100);
+    start_lift_to(-10, 100);
 
     chassis.wait_drive();
 
@@ -444,15 +447,15 @@ void zoomsSkillsAuton()
     start_lift_to(600, 100);
     wait(300);
 
-    chassis.set_drive_pid(33, 70, true);
+    chassis.set_drive_pid(35, 70, true);
     chassis.wait_until(24);
     chassis.set_max_speed(50);
     chassis.wait_drive();
 
-    lift_to(405, 100);
+    lift_to(450, 100);
 
     claw_open();
-    wait(500);
+    wait(200);
 
     // // ----------------------------------------------------------------
     // // 2rd alliance mogo scored on plat (120)
@@ -460,61 +463,63 @@ void zoomsSkillsAuton()
     start_lift_to(500, 100);
     wait(400);
 
-    chassis.set_drive_pid(-21, 90, true);
+    chassis.set_drive_pid(-25, 90, true);
 
-    // chassis.wait_until(-12);
-    // start_lift_to(0, 100);
-    // chassis.wait_drive();
-    //
-    // chassis.set_turn_pid(-45, 90);
-    // chassis.wait_drive();
-    //
-    // chassis.set_drive_pid(100, 90, true);
-    // chassis.wait_until(23);
-    // claw_close();
-    //
-    // start_lift_to(140, 100);
-    //
-    // chassis.wait_drive();
-    //
-    // start_lift_to(10, 100);
-    //
-    // wait(1200);
-    // claw_open();
-    //
-    // // // ------------------------------------------------------------------
-    // // // tall yellow scored in zone (140)
-    //
-    // chassis.set_drive_pid(-17.5, 90, true);
-    // chassis.wait_drive();
-    //
-    // chassis.set_turn_pid(90, 100);
-    // chassis.wait_drive();
-    //
-    // chassis.set_drive_pid(-19, 55);
-    // chassis.wait_drive();
-    //
-    // tilter_up();
-    //
-    //
-    // // alliance goal picked up with tilter
-    //
-    //
-    // chassis.set_drive_pid(18, 80);
-    // chassis.wait_drive();
-    //
-    // chassis.set_turn_pid(180, 90);
-    // chassis.wait_drive();
-    //
-    // chassis.set_drive_pid(41, 70);
-    // chassis.wait_until(24);
-    // claw_close();
-    //
-    // chassis.set_max_speed(55);
-    //
-    // start_lift_to(155, 100);
-    //
-    //
+    chassis.wait_until(-12);
+    start_lift_to(-10, 100);
+    chassis.wait_drive();
+
+    chassis.set_turn_pid(-45, 90);
+    chassis.wait_drive();
+
+    chassis.set_drive_pid(100, 90, true);
+    chassis.wait_until(23);
+    claw_close();
+
+    start_lift_to(70, 100);
+
+    chassis.wait_drive();
+
+    start_lift_to(0, 100);
+
+    wait(1200);
+    claw_open();
+
+    // ------------------------------------------------------------------
+    // tall yellow scored in zone (140)
+
+    chassis.set_drive_pid(-17.5, 90, true);
+    chassis.wait_drive();
+
+    chassis.set_turn_pid(90, 100);
+    chassis.wait_drive();
+
+    mogo_down(100);
+
+    chassis.set_drive_pid(-19, 55);
+    chassis.wait_drive();
+
+    mogo_up();
+
+
+    // alliance goal picked up with tilter
+
+
+    chassis.set_drive_pid(18, 80);
+    chassis.wait_drive();
+
+    chassis.set_turn_pid(180, 90);
+    chassis.wait_drive();
+
+    chassis.set_drive_pid(41, 70);
+    chassis.wait_until(24);
+    claw_close();
+
+    chassis.set_max_speed(55);
+
+    start_lift_to(155, 100);
+
+
     // // yellow goal picked up while driving forward
     //
     //
