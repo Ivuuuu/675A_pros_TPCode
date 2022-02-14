@@ -294,6 +294,35 @@ void skillsAuton()
 
 }
 
+void leftAWP()
+{
+    claw_close();
+    wait(500);
+
+    chassis.set_turn_pid(-90, 90);
+    chassis.wait_drive();
+
+    chassis.set_drive_pid(12, 110, true);
+    chassis.wait_drive();
+
+    chassis.set_turn_pid(-180, 90);
+    chassis.wait_drive();
+
+    chassis.set_drive_pid(-96, 110, true);
+    chassis.wait_until(-48);
+    mogo_down(100);
+    start_lift_to(120, 200);
+    chassis.wait_drive();
+
+    mogo_up();
+
+    intake_for(7200, 600);
+
+    start_lift_to(-10, 200);
+    mogo_down(80);
+
+}
+
 void zoomsSkillsAuton()
 {
     // robot starts plat up side, top right corner of 2nd tile, front facing the wall
@@ -517,30 +546,29 @@ void zoomsSkillsAuton()
 
     chassis.set_max_speed(55);
 
-    start_lift_to(155, 100);
+    start_lift_to(100, 100);
 
 
-    // // yellow goal picked up while driving forward
-    //
-    //
-    // chassis.wait_drive();
-    //
-    // chassis.set_turn_pid(140, 60);
-    // chassis.wait_drive();
-    //
-    // start_lift_to(480, 100);
-    // wait(200);
-    //
-    // chassis.set_drive_pid(43, 80);
-    // chassis.wait_until(30);
-    // chassis.set_max_speed(60);
-    //
-    // chassis.wait_drive();
-    //
-    // start_lift_to(450, 100);
-    // wait(300);
-    // claw_open();
-    //
+    // yellow goal picked up while driving forward
+
+    chassis.wait_drive();
+
+    chassis.set_turn_pid(140, 60);
+    chassis.wait_drive();
+
+    start_lift_to(550, 100);
+    wait(200);
+
+    chassis.set_drive_pid(43, 80);
+    chassis.wait_until(30);
+    chassis.set_max_speed(60);
+
+    chassis.wait_drive();
+
+    start_lift_to(450, 100);
+    wait(300);
+    claw_open();
+
     // //3rd yellow goal has been scored on close platform
     // chassis.set_drive_pid(-21, 80, true);
     // chassis.wait_until(-5);

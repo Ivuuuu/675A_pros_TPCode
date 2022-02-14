@@ -21,5 +21,13 @@ void prog_skills();
 void left_auto();
 
 void skillsAuton();
+
+void leftAWP();
+void rightAWP();
+void right2MogosRings();
+void right1MogoRings();
+void left1Mogo();
+
+
 void zoomsSkillsAuton();
 void testAuton();
