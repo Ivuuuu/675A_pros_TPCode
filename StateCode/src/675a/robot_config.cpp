@@ -10,3 +10,4 @@ pros::Motor lift_r(19, MOTOR_GEARSET_18, false, MOTOR_ENCODER_DEGREES);
 pros::Motor conveyor(2, MOTOR_GEARSET_6, false, MOTOR_ENCODER_DEGREES);
 
 pros::ADIDigitalOut clawADI('B', false);
+pros::ADIDigitalOut blockerADI('C', false);

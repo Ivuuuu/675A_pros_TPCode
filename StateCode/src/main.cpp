@@ -75,14 +75,26 @@ void initialize() {
 
   // Autonomous Selector using LLEMMU
   ez::as::auton_selector.add_autons({
+
+
+    // Auton("LEFT single left neutral + rings", leftSingleMogoRings),
+    Auton("SLC Auton Fake", SLCgod),
+    // Auton("SKILLS Auton", zoomsSkillsAuton),
+    Auton("SLC Auton", SLCmoment),
+    Auton("PRAY JEFFREY THROWS", jeffreyMoment),
+    // Auton("LEFT AWP", leftAWP),
+    // Auton("LEFT ring + center rush", rightAWP),
+    Auton("RIGHT single right neutral + rings", rightSingleMogoRings),
+    // Auton("LEFT single left neutral + rings", leftSingleMogoRings),
+
     //Auton("Example Drive\n\nDrive forward and come back.", drive_example),
     //Auton("Skills Auton", skillsAuton),
-    Auton("SKILLS Auton", zoomsSkillsAuton),
-    Auton("LEFT AWP (clamp on mogo)", leftAWP),
-    Auton("RIGHT AWP (clamp out to neutral)", rightAWP),
-    Auton("RIGHT double neutral", rightDoubleMogo),
-    Auton("RIGHT single right neutral + rings", rightSingleMogoRings),
-    Auton("LEFT single mogo hold", leftSingleMogo),
+    // Auton("SKILLS Auton", zoomsSkillsAuton),
+    // Auton("LEFT AWP", leftAWP),
+    // // Auton("RIGHT AWP (clamp out to neutral)", rightAWP),
+    // // Auton("RIGHT double neutral", rightDoubleMogo),
+    // Auton("RIGHT single right neutral + rings", rightSingleMogoRings),
+    // Auton("LEFT single left neutral + rings", leftSingleMogoRings),
     // Auton("LEFT AWP (clamp on mogo)", leftAWP),
     // Auton("RIGHT AWP (clamp out to neutral)", rightAWP),
     // Auton("SKILLS Auton", zoomsSkillsAuton),

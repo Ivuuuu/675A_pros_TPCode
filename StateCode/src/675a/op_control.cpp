@@ -8,7 +8,8 @@ void op_control()
   useMogoMacro(); //R2 & X
   useClaw();      //R1
   useLift();      //L1 & L2
-  useConveyor();  //left,right,down
+  useConveyor();
+  useBlocker();  //left,right,down
 
   if (lift_r.get_position() <= 100)
   {
@@ -20,10 +21,10 @@ void op_control()
     mogo.move_relative(10, 100);
   }
 
-  if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y))
-  {
-    mogo.move_relative(-10, 100);
-  }
+  // if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y))
+  // {
+  //   mogo.move_relative(-10, 100);
+  // }
 
   // if lift value is under 100 make conveyor stop no matter what
 }
@@ -73,6 +74,23 @@ void useClaw()
     {
       clawADI.set_value(true);
       clamp_is_down = true;
+    }
+  }
+}
+
+void useBlocker()
+{
+  if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y))
+  {
+    if(blocker_is_down == true)
+    {
+      blockerADI.set_value(false);
+      blocker_is_down = false;
+    }
+    else if(blocker_is_down == false)
+    {
+      blockerADI.set_value(true);
+      blocker_is_down = true;
     }
   }
 }

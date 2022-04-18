@@ -26,8 +26,10 @@ void leftAWP();
 void rightAWP();
 void rightDoubleMogo();
 void rightSingleMogoRings();
-void leftSingleMogo();
-
+void leftSingleMogoRings();
+void SLCgod();
+void SLCmoment();
+void jeffreyMoment();
 
 void zoomsSkillsAuton();
 void testAuton();

@@ -11,6 +11,18 @@ void claw_close()
   clamp_is_down = true;
 }
 
+void blocker_down()
+{
+  blockerADI.set_value(true);
+  blocker_is_down = true;
+}
+
+void blocker_up()
+{
+  blockerADI.set_value(false);
+  blocker_is_down = false;
+}
+
 void start_mogo_down(int speed)
 {
   mogo.move_absolute(mogo_bottom_pos, speed);

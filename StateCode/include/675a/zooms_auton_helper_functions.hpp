@@ -3,6 +3,9 @@
 void claw_open();
 void claw_close();
 
+void blocker_down();
+void blocker_up();
+
 ////
 // moves mogo to bottom position
 // NON-BLOCKING

@@ -294,6 +294,121 @@ void skillsAuton()
 
 }
 
+void SLCgod()
+{
+  lift_l.set_brake_mode(MOTOR_BRAKE_HOLD);
+  lift_r.set_brake_mode(MOTOR_BRAKE_HOLD);
+
+  chassis.set_mode(ez::DRIVE);
+
+  chassis.set_turn_pid(-32, 110);
+  chassis.wait_drive();
+
+  chassis.set_drive_pid(55, 127);
+  chassis.wait_until(35);
+  blocker_down();
+  chassis.wait_until(50);
+  claw_close();
+  chassis.wait_drive();
+
+  chassis.set_drive_pid(-55, 127);
+  chassis.wait_until(-5);
+  wait(500);
+  blocker_up();
+  claw_open();
+  chassis.set_max_speed(100);
+  chassis.wait_drive();
+
+  chassis.set_turn_pid(0, 110);
+  chassis.wait_drive();
+
+  chassis.set_drive_pid(45, 127);
+  chassis.wait_until(38);
+  claw_close();
+  chassis.wait_drive();
+
+  chassis.set_drive_pid(-27, 127);
+  chassis.wait_drive();
+
+  start_lift_to(50, 100);
+
+  chassis.set_turn_pid(-90, 90);
+  chassis.wait_drive();
+
+  mogo_down(100);
+
+  chassis.set_drive_pid(-15, 70);
+  chassis.wait_drive();
+
+  mogo_mid(100);
+
+  start_lift_to(200, 100);
+  chassis.set_drive_pid(1.5, 70);
+  chassis.wait_drive();
+
+  chassis.set_turn_pid(1, 90);
+  chassis.wait_drive();
+
+  // start_lift_to(500, 200);
+  // wait(1000);
+  start_intake(600);
+
+  chassis.set_drive_pid(24, 80);
+  chassis.wait_drive();
+
+  chassis.set_drive_pid(-32, 100);
+  chassis.wait_drive();
+
+  stop_intake();
+
+  // start_lift_to(-3, 200);
+  // mogo_down(80);
+
+}
+
+void SLCmoment()
+{
+  lift_l.set_brake_mode(MOTOR_BRAKE_HOLD);
+  lift_r.set_brake_mode(MOTOR_BRAKE_HOLD);
+
+  chassis.set_mode(ez::DRIVE);
+
+  chassis.set_drive_pid(42, 127, false);
+  chassis.wait_until(30);
+  blocker_down();
+  chassis.wait_until(39);
+  claw_close();
+  chassis.wait_drive();
+
+  chassis.set_drive_pid(-42, 127);
+  chassis.wait_until(-5);
+  wait(500);
+  blocker_up();
+  claw_open();
+  chassis.wait_drive();
+
+  chassis.set_turn_pid(-32, 110);
+  chassis.wait_drive();
+
+  chassis.set_drive_pid(55, 127);
+  chassis.wait_until(51);
+  claw_close();
+  chassis.wait_drive();
+
+  chassis.set_drive_pid(-55, 127);
+  chassis.wait_until(-5);
+  chassis.set_max_speed(100);
+  chassis.wait_drive();
+}
+
+void jeffreyMoment()
+{
+  chassis.set_mode(ez::DRIVE);
+
+  chassis.set_turn_pid(42069, 100);
+  chassis.wait_drive();
+}
+
 void leftAWP()
 {
   mogo_mid(100);
@@ -311,7 +426,9 @@ void leftAWP()
   chassis.set_turn_pid(0, 90);
   chassis.wait_drive();
 
-  chassis.set_drive_pid(-99, 110, true);
+  wait(3000);
+
+  chassis.set_drive_pid(-101, 110, true);
   chassis.wait_until(-48);
   mogo_down(100);
   chassis.set_max_speed(70);
@@ -331,30 +448,24 @@ void leftAWP()
 
 void rightAWP()
 {
-  mogo_down(mogo_down_speed);
+  mogo_mid(100);
+  wait(500);
 
-  chassis.set_drive_pid(17.5, 90, true);
+  chassis.set_drive_pid(6, 110, true);
   chassis.wait_drive();
 
-  chassis.set_turn_pid(-90, 90);
-  claw_open();      //start_claw_open();
-
+  chassis.set_turn_pid(108, 90);
   chassis.wait_drive();
 
-  chassis.set_drive_pid(-16, 55, true);
+  chassis.set_drive_pid(47, 127, false);
+  chassis.wait_until(35);
+  blocker_down();
+  chassis.wait_until(45);
+  claw_close();
   chassis.wait_drive();
 
-  mogo_mid(150);
-
-  chassis.set_drive_pid(84, 100, true);
+  chassis.set_drive_pid(-52, 127);
   chassis.wait_drive();
-
-  chassis.set_swing_pid(ez::RIGHT_SWING, -270, 80);
-  chassis.wait_drive();
-
-  lift_to(100, 100);
-
-  claw_open();
 }
 
 void rightDoubleMogo()
@@ -389,7 +500,8 @@ void rightDoubleMogo()
 
   claw_open();
   chassis.set_drive_pid(44, 127, true);
-
+  chassis.wait_until(36);
+  blocker_down();
   chassis.wait_drive();
 
   claw_close();
@@ -451,54 +563,76 @@ void rightSingleMogoRings()
 
   chassis.set_mode(ez::DRIVE);
 
-  //EZ without slew
-
-  chassis.set_drive_pid(23, 127, false);
-  chassis.wait_drive();
-
+  chassis.set_drive_pid(42, 127, false);
+  chassis.wait_until(30);
+  blocker_down();
+  chassis.wait_until(40);
   claw_close();
-
-  chassis.set_drive_pid(-14, 127, false);
   chassis.wait_drive();
 
-  start_lift_to(100, 100);
+  chassis.set_drive_pid(-25, 127);
+  chassis.wait_drive();
+
+  start_lift_to(50, 100);
 
   chassis.set_turn_pid(-90, 90);
   chassis.wait_drive();
 
   mogo_down(100);
 
-  chassis.set_drive_pid(-22, 70);
+  chassis.set_drive_pid(-15, 70);
   chassis.wait_drive();
 
   mogo_mid(100);
 
-  chassis.set_turn_pid(-150, 90);
+  start_lift_to(200, 100);
+  chassis.set_drive_pid(1.5, 70);
   chassis.wait_drive();
 
-  start_lift_to(150, 200);
+  chassis.set_turn_pid(1, 90);
+  chassis.wait_drive();
+
+  // start_lift_to(500, 200);
+  // wait(1000);
   start_intake(600);
 
-  chassis.set_drive_pid(12, 80);
+  chassis.set_drive_pid(33, 30);
   chassis.wait_drive();
 
-  chassis.set_drive_pid(-12, 80);
+  chassis.set_drive_pid(-32, 80);
   chassis.wait_drive();
 
-  chassis.set_drive_pid(12, 80);
-  chassis.wait_drive();
 
-  chassis.set_drive_pid(-12, 80);
-  chassis.wait_drive();
-
-  chassis.set_drive_pid(12, 80);
-  chassis.wait_drive();
-
-  chassis.set_drive_pid(-12, 80);
-  chassis.wait_drive();
-
-  chassis.set_drive_pid(12, 80);
-  chassis.wait_drive();
+  // chassis.set_turn_pid(-150, 90);
+  // chassis.wait_drive();
+  //
+  // start_lift_to(500, 200);
+  // wait(1000);
+  // start_intake(600);
+  //
+  // chassis.set_drive_pid(18, 80);
+  // chassis.wait_drive();
+  //
+  // chassis.set_drive_pid(-12, 80);
+  // chassis.wait_drive();
+  //
+  // chassis.set_drive_pid(12, 80);
+  // chassis.wait_drive();
+  //
+  // chassis.set_drive_pid(-12, 80);
+  // chassis.wait_drive();
+  //
+  // chassis.set_drive_pid(12, 80);
+  // chassis.wait_drive();
+  //
+  // chassis.set_drive_pid(-12, 80);
+  // chassis.wait_drive();
+  //
+  // chassis.set_drive_pid(12, 80);
+  // chassis.wait_drive();
+  //
+  // chassis.set_drive_pid(-12, 80);
+  // chassis.wait_drive();
 
   stop_intake();
 
@@ -507,22 +641,77 @@ void rightSingleMogoRings()
 
 }
 
-void leftSingleMogo()
+void leftSingleMogoRings()
 {
   lift_l.set_brake_mode(MOTOR_BRAKE_HOLD);
   lift_r.set_brake_mode(MOTOR_BRAKE_HOLD);
 
-  chassis.set_mode(ez::DISABLE);
-
-  chassis.set_tank(127, 127);
-
-  while (chassis.right_sensor() < 2000){
-    wait(2);
-  }
-
-  chassis.set_tank(0, 0);
+  // chassis.set_mode(ez::DISABLE);
+  //
+  // chassis.set_tank(127, 127);
+  //
+  // while (chassis.right_sensor() < 2000){
+  //   wait(2);
+  // }
+  //
+  // chassis.set_tank(0, 0);
+  //
+  // chassis.set_mode(ez::DRIVE);
 
   chassis.set_mode(ez::DRIVE);
+
+  chassis.set_drive_pid(44, 127, false);
+  chassis.wait_until(30);
+  blocker_down();
+  chassis.wait_until(39);
+  claw_close();
+  chassis.wait_drive();
+
+  chassis.set_drive_pid(-36, 127);
+  chassis.wait_drive();
+
+  lift_to(70, 100);
+
+  chassis.set_turn_pid(19, 60);
+  chassis.wait_drive();
+
+  chassis.set_drive_pid(-13, 90);
+  chassis.wait_drive();
+
+  lift_to(500, 100);
+
+  chassis.set_turn_pid(-95, 50);
+  chassis.wait_drive();
+
+  start_lift_to(-3, 100);
+  chassis.set_drive_pid(4, 70);
+  chassis.wait_drive();
+
+  mogo_down(100);
+
+  chassis.set_drive_pid(-12, 70);
+  chassis.wait_drive();
+
+  mogo_mid(100);
+  lift_to(500, 150);
+  start_intake(600);
+  //
+  // lift_to(500, 150);
+  //
+  chassis.set_drive_pid(10, 60);
+  chassis.wait_drive();
+
+  // chassis.set_drive_pid(-8, 60);
+  // chassis.wait_drive();
+
+  // chassis.set_drive_pid(8, 80);
+  // chassis.wait_drive();
+  //
+  // chassis.set_drive_pid(-8, 80);
+  // chassis.wait_drive();
+  //
+  stop_intake();
+  mogo_down(100);
 }
 
 void zoomsSkillsAuton()
@@ -545,7 +734,7 @@ void zoomsSkillsAuton()
     wait(100);
 
     // first alliance goal has been picked up with tilter
-    chassis.set_drive_pid(16.5, 80, true);
+    chassis.set_drive_pid(16, 80, true);
     chassis.wait_drive();
 
     chassis.set_turn_pid(0, 70);
@@ -553,7 +742,7 @@ void zoomsSkillsAuton()
 
     start_lift_to(0, 100);
 
-    chassis.set_drive_pid(24, 80, true);
+    chassis.set_drive_pid(24.5, 80, true);
     chassis.wait_drive();
 
     claw_close();
@@ -646,10 +835,10 @@ void zoomsSkillsAuton()
 
     chassis.wait_drive();
 
-    chassis.set_turn_pid(-42, 80);
+    chassis.set_turn_pid(-41, 80);
     chassis.wait_drive();
 
-    chassis.set_drive_pid(18, 60, true);
+    chassis.set_drive_pid(15, 60, true);
     chassis.wait_drive();
 
     claw_close();
@@ -658,7 +847,7 @@ void zoomsSkillsAuton()
     // grabs alliance goal near platform
 
 
-    chassis.set_drive_pid(-6, 70, true);
+    chassis.set_drive_pid(-3, 70, true);
     chassis.wait_drive();
 
     lift_to(155, 100);
@@ -669,7 +858,7 @@ void zoomsSkillsAuton()
     chassis.set_drive_pid(-60, 90, true);
     chassis.wait_drive();
 
-    chassis.set_turn_pid(-141, 70);
+    chassis.set_turn_pid(-126, 70);
     chassis.wait_until(-100);
     chassis.set_max_speed(60);
 
@@ -678,15 +867,20 @@ void zoomsSkillsAuton()
     start_lift_to(600, 100);
     wait(300);
 
-    chassis.set_drive_pid(35, 70, true);
+    chassis.set_drive_pid(37, 70, true);
     chassis.wait_until(24);
     chassis.set_max_speed(50);
     chassis.wait_drive();
 
     lift_to(450, 100);
 
+    chassis.set_turn_pid(-145, 90);
+    chassis.wait_drive();
+
     claw_open();
-    wait(200);
+
+    chassis.set_turn_pid(-126, 90);
+    chassis.wait_drive();
 
     // // ----------------------------------------------------------------
     // // 2rd alliance mogo scored on plat (120)
@@ -694,7 +888,7 @@ void zoomsSkillsAuton()
     start_lift_to(500, 100);
     wait(400);
 
-    chassis.set_drive_pid(-25, 90, true);
+    chassis.set_drive_pid(-27, 90, true);
 
     chassis.wait_until(-12);
     start_lift_to(-10, 100);
@@ -770,6 +964,10 @@ void zoomsSkillsAuton()
     start_lift_to(450, 100);
     wait(300);
     claw_open();
+
+    start_lift_to(550, 200);
+    chassis.set_turn_pid(-4, 80);
+    chassis.wait_drive();
 
     // //3rd yellow goal has been scored on close platform
     // chassis.set_drive_pid(-13, 80, true);

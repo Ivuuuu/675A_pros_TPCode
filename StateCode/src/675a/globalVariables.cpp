@@ -19,6 +19,7 @@ int conveyor_speed = 600; // prolly need to change
 
 
 bool clamp_is_down = false;
+bool blocker_is_down = false;
 
 int mogo_start_pos = 0;   // check with bbao
 int mogo_mid_pos = 252;

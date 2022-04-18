@@ -17,6 +17,7 @@ extern int mogo_down_speed;
 extern int conveyor_speed;
 
 extern bool clamp_is_down;
+extern bool blocker_is_down;
 
 extern int mogo_start_pos;
 extern int mogo_mid_pos;

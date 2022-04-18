@@ -17,3 +17,4 @@ void useMogoMacro();
 void useClaw();
 void useLift();
 void useConveyor();
+void useBlocker();
